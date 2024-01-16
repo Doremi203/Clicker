@@ -1,7 +1,6 @@
 using Core;
 using ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Ui
@@ -43,19 +42,8 @@ namespace Ui
             productionBuildingUi.gameObject.SetActive(true);
             
             productionBuildingUi
-                .TryGetComponent<ProductionBuildingVisual>(out var productionBuildingVisual);
-            productionBuildingVisual.SetResource(resource);
-            
-            SetupProductionButton(resource, productionBuildingUi);
-        }
-
-        private static void SetupProductionButton(ResourceSo resource, Transform productionBuildingUi)
-        {
-            productionBuildingUi
-                .TryGetComponent<ProductionBuilding>(out var productionBuilding);
-            productionBuildingUi.TryGetComponent<Button>(out var button);
-            productionBuilding.SetResource(resource);
-            button.onClick.AddListener(productionBuilding.Produce);
+                .TryGetComponent<ProductionBuildingButton>(out var productionBuildingButton);
+            productionBuildingButton.SetResource(resource);
         }
     }
 }
