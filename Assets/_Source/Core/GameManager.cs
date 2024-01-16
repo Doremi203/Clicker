@@ -35,7 +35,7 @@ namespace Core
             Instance = this;
             InitResourceBank();
         }
-        
+
         private void InitResourceBank()
         {
             ResBank = new ResourceBank(_resourceListSo);
