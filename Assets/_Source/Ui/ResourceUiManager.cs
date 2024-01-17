@@ -1,9 +1,9 @@
-using System;
 using Core;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.UI;
 
-namespace Visuals
+namespace Ui
 {
     public class ResourceUiManager : MonoBehaviour
     {
@@ -19,11 +19,16 @@ namespace Visuals
         {
             foreach (var resource in GameManager.Instance.Resources)
             {
-                var resourceUi = Instantiate(_resourceTemplate, _container);
-                resourceUi.gameObject.SetActive(true);
-                resourceUi.TryGetComponent<ResourceVisual>(out var resourceVisual);
-                resourceVisual.SetResource(resource);
+                SetupSingleResourceUi(resource);
             }
+        }
+
+        private void SetupSingleResourceUi(ResourceSo resource)
+        {
+            var resourceUi = Instantiate(_resourceTemplate, _container);
+            resourceUi.gameObject.SetActive(true);
+            resourceUi.TryGetComponent<ResourceVisual>(out var resourceVisual);
+            resourceVisual.SetResource(resource);
         }
     }
 }

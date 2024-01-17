@@ -1,11 +1,10 @@
-using System;
 using Core;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Visuals
+namespace Ui
 {
     public class ResourceVisual : MonoBehaviour
     {
