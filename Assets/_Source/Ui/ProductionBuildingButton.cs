@@ -9,12 +9,12 @@ namespace Ui
 {
     public class ProductionBuildingButton : MonoBehaviour
     {
-        [SerializeField] private ProductionBuilding _productionBuilding;
+        private ProductionBuilding _productionBuilding;
         [SerializeField] private Button _button;
         [SerializeField] private TextMeshProUGUI _buttonText;
         [SerializeField] private Image _progressBar;
         
-        private void Awake()
+        private void Start()
         {
             _productionBuilding.OnProductionProgressChanged += OnProductionProgressChanged;
             _productionBuilding.OnProductionFinished += OnProductionFinished;
@@ -43,10 +43,10 @@ namespace Ui
             _progressBar.fillAmount = 0;
         }
 
-        public void SetResource(ResourceSo resource)
+        public void SetProductionBuilding(ProductionBuilding productionBuilding)
         {
-            _productionBuilding.Resource = resource.Resource;
-            _buttonText.text = $"Produce {_productionBuilding.Resource.ToString()}";
+            _productionBuilding = productionBuilding;
+            _buttonText.text = $"Produce {productionBuilding.Resource}";
         }
     }
 }

@@ -11,8 +11,12 @@ namespace Core
         public event Action OnProductionFinished;
 
         public GameResource Resource { get; set; }
-        private readonly int _productionRate = 1;
-        private float _productionTime = 1f;
+
+        private const int ProductionRate = 1;
+        private float ProductionTime => 1f - (_productionLevel * 0.1f);
+        public int UpgradePrice => _productionLevel * 10;
+
+        private int _productionLevel = 1;
         
         public void Produce()
         {
@@ -23,15 +27,25 @@ namespace Core
         {
             float elapsedTime = 0;
 
-            while (elapsedTime < _productionTime)
+            while (elapsedTime < ProductionTime)
             {
                 elapsedTime += Time.deltaTime;
-                OnProductionProgressChanged?.Invoke(elapsedTime / _productionTime);
+                OnProductionProgressChanged?.Invoke(elapsedTime / ProductionTime);
                 yield return null;
             }
             
-            GameManager.Instance.ResBank.ChangeResource(Resource, _productionRate);
+            GameManager.Instance.ResBank.ChangeResource(Resource, ProductionRate);
             OnProductionFinished?.Invoke();
+        }
+        
+        public void UpgradeProduction()
+        {
+            if (GameManager.Instance.ResBank.GetResource(Resource).Value < UpgradePrice)
+            {
+                return;
+            }
+            GameManager.Instance.ResBank.ChangeResource(Resource, -UpgradePrice);
+            _productionLevel++;
         }
     }
 }

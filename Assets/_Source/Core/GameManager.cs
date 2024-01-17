@@ -8,8 +8,6 @@ namespace Core
     {
         [SerializeField] private ResourceListSo _resourceListSo;
         
-        private static GameManager _instance;
-
         public static GameManager Instance
         {
             get => _instance;
@@ -25,15 +23,35 @@ namespace Core
                 }
             }
         }
-
+        
         public ResourceBank ResBank { get; private set; }
         
         public IEnumerable<ResourceSo> Resources => _resourceListSo.Resources;
+        
+        public IEnumerable<ProductionBuilding> ProductionBuildings => _productionBuildings;
+
+        private readonly List<ProductionBuilding> _productionBuildings = new();
+        
+        private static GameManager _instance;
         
         private void Awake()
         {
             Instance = this;
             InitResourceBank();
+            InitProductionBuildings();
+        }
+
+        private void InitProductionBuildings()
+        {
+            foreach (var resource in Resources)
+            {
+                var productionBuilding = 
+                    new GameObject($"{resource.Resource}Producer")
+                        .AddComponent<ProductionBuilding>();
+                
+                productionBuilding.Resource = resource.Resource;
+                _productionBuildings.Add(productionBuilding);
+            }
         }
 
         private void InitResourceBank()
